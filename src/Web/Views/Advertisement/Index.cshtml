@@ -1,0 +1,108 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Web.Data
+@inject SignInManager<ApplicationUser> SignInManager
+@model Web.Models.AdvertisementVm
+
+@{
+    ViewData["Title"] = "Annoncer";
+}
+
+<h1>Annoncer</h1>
+@if (SignInManager.IsSignedIn(User))
+{
+    <p>
+        <a asp-action="Create">Opret</a>
+    </p>
+    <p>
+        <a asp-action="MyAdds">Mine Annoncer</a>
+    </p>
+}
+<form>
+    <div class="row g-2 mb-3">
+        <div class="col-md">
+            <div class="form-floating">
+                <input class="form-control" asp-for="AdvertisementSearchDto.ProductName" />
+                <label asp-for="AdvertisementSearchDto.ProductName">Produkt navn</label>
+            </div>
+        </div>
+    </div>
+    <div class="row g-2 mb-3">
+        <div class="col-md">
+            <div class="form-floating">
+                <input class="form-control" asp-for="AdvertisementSearchDto.YearFrom" />
+                <label asp-for="AdvertisementSearchDto.YearFrom">Årgang fra</label>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-floating">
+                <input class="form-control" asp-for="AdvertisementSearchDto.YearTo" />
+                <label asp-for="AdvertisementSearchDto.YearTo">Årgang til</label>
+            </div>
+        </div>
+    </div>
+    <div class="row g-2 mb-3">
+        <div class="col-md">
+            <div class="form-floating">
+                <input class="form-control" asp-for="AdvertisementSearchDto.PriceFrom" />
+                <label asp-for="AdvertisementSearchDto.PriceFrom">Pris fra</label>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-floating">
+                <input class="form-control" asp-for="AdvertisementSearchDto.PriceTo" />
+                <label asp-for="AdvertisementSearchDto.PriceTo">Pris til</label>
+            </div>
+        </div>
+    </div>
+    <div class="row g-2 mb-3">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" asp-for="AdvertisementSearchDto.IsOffer">
+          <label class="form-check-label" asp-for="AdvertisementSearchDto.IsOffer">Byd på pris</label>
+        </div>
+    </div>
+    <div class="form-group">
+            <button type="submit" class="btn btn-primary">Søg</button>
+        </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Advertisements.First().ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Advertisements.First().Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Advertisements.First().Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Advertisements.First().Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Advertisements.First().IsOffer)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Advertisements) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsOffer)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

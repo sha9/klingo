@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8F6DBCE8-C290-4894-8A0A-1C251020B33D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{06825F4C-8D65-4BFF-9759-A70221B57AA2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7E4B431B-896F-4356-A381-807FD61EB005}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "src\Web\Web.csproj", "{CBBBC750-F911-416B-86E4-320F406DBBDA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CBBBC750-F911-416B-86E4-320F406DBBDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBBBC750-F911-416B-86E4-320F406DBBDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBBBC750-F911-416B-86E4-320F406DBBDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBBBC750-F911-416B-86E4-320F406DBBDA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CBBBC750-F911-416B-86E4-320F406DBBDA} = {8F6DBCE8-C290-4894-8A0A-1C251020B33D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F96F6FD0-8015-42B4-85EC-3C8663FE5D49}
+	EndGlobalSection
+EndGlobal

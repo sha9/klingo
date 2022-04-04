@@ -1,0 +1,61 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Web.Data
+@inject SignInManager<ApplicationUser> SignInManager
+@model IEnumerable<Web.Models.AdvertisementDto>
+
+@{
+    ViewData["Title"] = "Mine annoncer";
+}
+
+<h1>Mine Annoncer</h1>
+
+<p>
+    <a asp-action="Create">Opret</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsOffer)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsOffer)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-controller="Advertisement" asp-route-id="@item.Id">Opdater</a> |
+                <a asp-controller="Delete" asp-action="Advertisement" asp-route-id="@item.Id">Slet</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

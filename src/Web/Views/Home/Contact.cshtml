@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Kontakt";
+}
+
+<h1 class="text-center">Kontakt os</h1>
+<hr />
+<div class="row">
+    <div class="col">
+        <h3>Kontakt Informationer</h3>
+        <div class="row g-3 align-items-center">
+          <div class="col-auto">
+            <label for="email" class="col-form-label">Email:</label>
+          </div>
+          <div class="col-auto">
+            <span>info@klingo.dk</span>
+          </div>
+        </div>
+        <div class="row g-3 align-items-center">
+          <div class="col-auto">
+            <label for="email" class="col-form-label">Telefon:</label>
+          </div>
+          <div class="col-auto">
+            <span>12345678</span>
+          </div>
+        </div>
+    </div>
+    <div class="col">
+        <h3>Skriv til os</h3>
+        <form>
+            <div class="form-floating mb-3">
+              <input type="email" class="form-control" id="email" placeholder="name@example.com" value="info@klingo.dk" disabled>
+              <label for="email">Email address</label>
+            </div>
+            <div class="form-floating">
+              <input type="text" class="form-control" id="phone" placeholder="Password" value="12345678" disabled>
+              <label for="phone">Telefon</label>
+            </div>
+        </form>
+    </div>
+</div>
