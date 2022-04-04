@@ -16,8 +16,6 @@ namespace Web.Models
         public decimal? PriceFrom { get; set; }
         [Display(Name = "Pris to")]
         public decimal? PriceTo { get; set; }
-        [Display(Name = "Brug byd på pris")]
-        public bool UseIsOffer { get; set; }
         [Display(Name = "Byd på pris")]
         public bool IsOffer { get; set; }
     }

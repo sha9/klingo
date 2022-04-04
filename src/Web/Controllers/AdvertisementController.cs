@@ -19,35 +19,35 @@ namespace Web.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
         [AllowAnonymous]
-        public async Task<IActionResult> IndexAsync(AdvertisementSearchDto advertisementSearchDto = null)
+        public IActionResult Index(AdvertisementSearchDto advertisementSearchDto = null)
         {
-            var list = await GetAdvertisements(advertisementSearchDto);
-            var vm = new AdvertisementVm() { Advertisements = list.ToAdvertisementDtoList() };
-            return View(vm);
+            return View(new AdvertisementVm() { Advertisements = GetAdvertisements(advertisementSearchDto).ToAdvertisementDtoList() });
         }
-        [AllowAnonymous]
-        [HttpPost]
-        public async Task<IActionResult> Search(AdvertisementSearchDto advertisementSearchDto)
+        private List<Advertisement> GetAdvertisements(AdvertisementSearchDto advertisementSearchDto)
         {
-            return await IndexAsync(advertisementSearchDto);
-        }
-        private async Task<List<Advertisement>> GetAdvertisements(AdvertisementSearchDto advertisementSearchDto)
-        {
+            var advertisements = _context.Advertisements.AsEnumerable();
             if (advertisementSearchDto != null)
             {
-                IQueryable<Advertisement> advertisements = null;
-                if(!string.IsNullOrEmpty(advertisementSearchDto.ProductName))
-                    advertisements = _context.Advertisements.Where(x=>x.ProductName.Contains(advertisementSearchDto.ProductName));
+                var tmpAdds = advertisementSearchDto.IsOffer ? _context.Advertisements.Where(x=>x.IsOffer) : _context.Advertisements.AsEnumerable();
 
-                if(advertisementSearchDto.PriceTo > 0)
-                    advertisements = _context.Advertisements.Where(x => x.Price >= advertisementSearchDto.PriceFrom && x.Price <= advertisementSearchDto.PriceTo);
-                else
-                    advertisements = _context.Advertisements.Where(x=>x.Price >= advertisementSearchDto.PriceFrom);
+                if (!string.IsNullOrEmpty(advertisementSearchDto.ProductName))
+                    tmpAdds = tmpAdds.Where(x => x.ProductName.ToLower().Contains(advertisementSearchDto.ProductName.ToLower())).AsEnumerable();
 
-                if (advertisements != null)
-                    return await advertisements.ToListAsync();
+                if(advertisementSearchDto.YearFrom != 0)
+                    tmpAdds = tmpAdds.Where(x => x.Year >= advertisementSearchDto.YearFrom).AsEnumerable();
+
+                if (advertisementSearchDto.YearTo != 0)
+                    tmpAdds = tmpAdds.Where(x => x.Year <= advertisementSearchDto.YearTo).AsEnumerable();
+
+                if (advertisementSearchDto.PriceFrom != 0)
+                    tmpAdds = tmpAdds.Where(x => x.Price >= advertisementSearchDto.PriceFrom).AsEnumerable();
+
+                if (advertisementSearchDto.PriceTo != 0)
+                    tmpAdds = tmpAdds.Where(x => x.Price <= advertisementSearchDto.PriceTo).AsEnumerable();
+
+                advertisements = tmpAdds;
             }
-            return await _context.Advertisements.ToListAsync();
+            return advertisements.ToList();
         }
 
         [HttpGet]
