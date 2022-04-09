@@ -1,0 +1,65 @@
+﻿@model Web.Models.AdvertisementDto
+
+@{
+    ViewData["Title"] = "Detaljer";
+}
+
+<h1>Detaljer</h1>
+
+<div>
+    <h4>Annonce</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Model)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Model)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Year)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsOffer)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsOffer)
+        </dd>
+        <dd class = "col-sm-10"> 
+            <label>Bilag</label>
+            <ul>
+            @foreach(var file in Model.AdvertisementFileDtos)
+            {
+                <li>
+                    <a asp-action="ShowFile" asp-controller="Advertisement" asp-route-id="@file.Id" target="_blank">@file.Name</a>
+                </li>
+            }
+            </ul>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Opdater</a> |
+    <a asp-action="Index">Tilbage</a>
+</div>

@@ -21,7 +21,8 @@ namespace Web.Extensions
                Model = advertisement.Model,
                Price = advertisement.Price,
                ProductName = advertisement.ProductName,
-               Year = advertisement.Year
+               Year = advertisement.Year,
+               AdvertisementFileDtos = advertisement.AdvertisementFiles.ToAdvertisementFileDtoList(),
             };
         }
 
@@ -40,7 +41,41 @@ namespace Web.Extensions
                 Model = advertisement.Model,
                 Price = advertisement.Price,
                 ProductName = advertisement.ProductName,
-                Year = advertisement.Year
+                Year = advertisement.Year,
+            };
+        }
+
+        public static List<AdvertisementFileDto> ToAdvertisementFileDtoList(this ICollection<AdvertisementFile> advertisementFiles)
+        {
+            return advertisementFiles.Select(advFil => advFil.ToAdvertisementFileDto()).ToList();
+        }
+
+        public static AdvertisementFileDto ToAdvertisementFileDto(this AdvertisementFile advertisementFile)
+        {
+            return new AdvertisementFileDto
+            {
+                AdvertismentId = advertisementFile.AdvertisementId,
+                Data = advertisementFile.Data,
+                Id = advertisementFile.Id,
+                Name = advertisementFile.Name,
+                Type = advertisementFile.Type,
+            };
+        }
+
+        public static List<AdvertisementFile> ToAdvertisementFileList(this List<AdvertisementFileDto> advertisementDtoFiles)
+        {
+            return advertisementDtoFiles.Select(advFil => advFil.ToAdvertisementFile()).ToList();
+        }
+
+        public static AdvertisementFile ToAdvertisementFile(this AdvertisementFileDto advertisementFileDto)
+        {
+            return new AdvertisementFile
+            {
+                AdvertisementId = advertisementFileDto.AdvertismentId,
+                Data = advertisementFileDto.Data,
+                Id = advertisementFileDto.Id,
+                Name = advertisementFileDto.Name,
+                Type = advertisementFileDto.Type,
             };
         }
     }

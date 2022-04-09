@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Web.Data
 {
@@ -16,9 +17,12 @@ namespace Web.Data
         public string Model { get; set; } = string.Empty;
         public string Category { get; set; } = string.Empty;
         public int Year { get; set; }
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal? Price { get;set; }
         public bool IsOffer { get; set; }
         [Required]
         public string ApplicationUserId { get; set; } = string.Empty;
+
+        public List<AdvertisementFile> AdvertisementFiles { get; set; } = new List<AdvertisementFile>();
     }
 }

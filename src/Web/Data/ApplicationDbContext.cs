@@ -10,4 +10,5 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
     }
     public DbSet<Advertisement> Advertisements { get; set; }
+    public DbSet<AdvertisementFile> AdvertisementFiles { get; set; }
 }

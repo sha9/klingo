@@ -39,10 +39,10 @@ namespace Web.Controllers
                 if (advertisementSearchDto.YearTo != 0)
                     tmpAdds = tmpAdds.Where(x => x.Year <= advertisementSearchDto.YearTo).AsEnumerable();
 
-                if (advertisementSearchDto.PriceFrom != 0)
+                if (advertisementSearchDto.PriceFrom != null && advertisementSearchDto.PriceFrom != 0)
                     tmpAdds = tmpAdds.Where(x => x.Price >= advertisementSearchDto.PriceFrom).AsEnumerable();
 
-                if (advertisementSearchDto.PriceTo != 0)
+                if (advertisementSearchDto.PriceTo != null && advertisementSearchDto.PriceTo != 0)
                     tmpAdds = tmpAdds.Where(x => x.Price <= advertisementSearchDto.PriceTo).AsEnumerable();
 
                 advertisements = tmpAdds;
@@ -71,9 +71,167 @@ namespace Web.Controllers
                 add.ApplicationUserId = GetCurrentUserId();
                 _context.Advertisements.Add(add);
                 await _context.SaveChangesAsync();
+                FormFilesToAdvertisementFilesForCreate(add.Id, advertisement.Files);
+                await _context.SaveChangesAsync();
                 return RedirectToAction("MyAdds");
             }
             return View(advertisement);
+        }
+
+        private void FormFilesToAdvertisementFilesForCreate(int advId, List<IFormFile> files)
+        {
+            foreach (var file in files)
+            {
+                var data = GetFileData(file);
+
+                if (string.IsNullOrEmpty(data))
+                    continue;
+
+                var fileForSave = new AdvertisementFile
+                {
+                    AdvertisementId = advId,
+                    Name = file.FileName,
+                    Type = file.ContentType,
+                    Data = data
+                };
+
+                _context.AdvertisementFiles.Add(fileForSave);
+            }
+        }
+
+        private string GetFileData(IFormFile file)
+        {
+            var data = string.Empty;
+
+            if (file.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    file.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
+                    data = Convert.ToBase64String(fileBytes);
+                }
+            }
+            return data;
+        }
+        [AllowAnonymous]
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var advertisement = await _context.Advertisements
+                .Include(x=>x.AdvertisementFiles)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            
+            if (advertisement == null)
+            {
+                return NotFound();
+            }
+
+            return View(advertisement.ToAdvertisementDto());
+        }
+
+        public async Task<IActionResult> ShowFile(int? id)
+        {
+            if(id == null || id <= 0)
+                return BadRequest();
+
+            var advertisement = await _context.AdvertisementFiles.SingleOrDefaultAsync(x => x.Id == id);
+            if (advertisement == null)
+            {
+                return NotFound();
+            }
+            var data = Convert.FromBase64String(advertisement.Data);
+            var type = advertisement.Type;
+            return File(data, type);
+        }
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var advertisement = await _context.Advertisements.FindAsync(id);
+            if (advertisement == null)
+            {
+                return NotFound();
+            }
+            return View(advertisement.ToAdvertisementDto());
+        }
+
+        // POST: Advertisements/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ProductName,Description,Model,Category,Year,Price,IsOffer,Files,AdvertisementFileDtos,ApplicationUserId")] AdvertisementDto advertisement)
+        {
+            if (id != advertisement.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(advertisement.ToAdvertisement());
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AdvertisementExists(advertisement.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(advertisement);
+        }
+
+        // GET: Advertisements/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var advertisement = await _context.Advertisements
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (advertisement == null)
+            {
+                return NotFound();
+            }
+
+            return View(advertisement.ToAdvertisementDto());
+        }
+
+        // POST: Advertisements/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var advertisement = await _context.Advertisements.FindAsync(id);
+            _context.Advertisements.Remove(advertisement);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool AdvertisementExists(int id)
+        {
+            return _context.Advertisements.Any(e => e.Id == id);
         }
 
         private string GetCurrentUserId()

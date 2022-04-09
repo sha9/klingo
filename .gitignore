@@ -265,3 +265,6 @@ DeploymentSettings.props
 Directory.Build.props
 Directory.Build.targets
 Packages.props
+src/Web/appsettings.Production.json
+src/Web/Properties/ServiceDependencies
+src/Web/Properties/serviceDependencies.klingo - Web Deploy.json
