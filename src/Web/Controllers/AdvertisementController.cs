@@ -236,8 +236,11 @@ namespace Web.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var advertisement = await _context.Advertisements.FindAsync(id);
-            _context.Advertisements.Remove(advertisement);
-            await _context.SaveChangesAsync();
+            if(advertisement != null)
+            {
+                _context.Advertisements.Remove(advertisement);
+                await _context.SaveChangesAsync();
+            }
             return RedirectToAction(nameof(Index));
         }
         [AllowAnonymous]
