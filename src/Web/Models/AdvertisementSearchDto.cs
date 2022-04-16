@@ -18,5 +18,8 @@ namespace Web.Models
         public decimal? PriceTo { get; set; }
         [Display(Name = "Byd på pris")]
         public bool IsOffer { get; set; }
+        [Display(Name = "Kategori")]
+        public string Category { get; set; } = string.Empty;
+        public string[] SelectedCategories { get; set; } = new string[0];
     }
 }

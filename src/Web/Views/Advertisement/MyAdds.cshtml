@@ -30,6 +30,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.IsOffer)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -50,6 +53,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsOffer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
             </td>
             <td>
                 <a asp-action="Details" asp-controller="Advertisement" asp-route-id="@item.Id">Se</a> |

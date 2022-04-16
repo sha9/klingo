@@ -16,9 +16,12 @@ namespace Web.Models
         public decimal? Price { get; set; }
         [Display(Name = "Byd på pris")]
         public bool IsOffer { get; set; }
+        [Display(Name = "Kategori")]
+        public string Category { get; set; } = string.Empty;
+        public string[] SelectedCategories { get; set; } = new string[0];
         public string ApplicationUserId { get; set; } = string.Empty;
         [Display(Name = "Bilag")]
-        public List<IFormFile> Files { get; set; } = new List<IFormFile>();
+        public List<IFormFile>? Files { get; set; } = new List<IFormFile>();
         public ICollection<AdvertisementFileDto> AdvertisementFileDtos { get; set; } = new List<AdvertisementFileDto>();
     }
 }

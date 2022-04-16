@@ -25,6 +25,18 @@
                 <label asp-for="AdvertisementSearchDto.ProductName">Produkt navn</label>
             </div>
         </div>
+        <div class="col-md">
+            <div class="form-floating">
+                <select class="form-select" asp-for="AdvertisementSearchDto.Category" id="category">
+                <option value="0" selected>Alt</option>
+                <option value="1">Tandlæge</option>
+                  <option value="2">Læge</option>
+                  <option value="3">Fysioterapi</option>
+                  <option value="4">Tandpleje</option>
+              </select>
+              <label for="category">Kategori</label>
+            </div>
+        </div>
     </div>
     <div class="row g-2 mb-3">
         <div class="col-md">

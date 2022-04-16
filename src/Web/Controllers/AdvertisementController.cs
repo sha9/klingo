@@ -49,6 +49,9 @@ namespace Web.Controllers
                 if (advertisementSearchDto.PriceTo != null && advertisementSearchDto.PriceTo != 0)
                     tmpAdds = tmpAdds.Where(x => x.Price <= advertisementSearchDto.PriceTo).AsEnumerable();
 
+                if(!string.IsNullOrEmpty(advertisementSearchDto.Category) && !advertisementSearchDto.Category.Equals("0"))
+                    tmpAdds = tmpAdds.Where(x => x.Category.Contains(advertisementSearchDto.Category)).AsEnumerable();
+
                 advertisements = tmpAdds;
             }
             return advertisements.ToList();
@@ -71,20 +74,26 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                foreach(var file in advertisement.Files)
+                if(advertisement.Files != null)
                 {
-                    if (!AllowedFileTypes.Contains(file.FileName.Split(".")[1].ToLower()))
+                    foreach (var file in advertisement.Files)
                     {
-                        ModelState.AddModelError("Files", "Only png, jpg and jpeg are allowed");
-                        return View(advertisement);
+                        if (!AllowedFileTypes.Contains(file.FileName.Split(".")[1].ToLower()))
+                        {
+                            ModelState.AddModelError("Files", "Only png, jpg and jpeg are allowed");
+                            return View(advertisement);
+                        }
                     }
                 }
                 var add = advertisement.ToAdvertisement();
                 add.ApplicationUserId = GetCurrentUserId();
                 _context.Advertisements.Add(add);
                 await _context.SaveChangesAsync();
-                FormFilesToAdvertisementFilesForCreate(add.Id, advertisement.Files);
-                await _context.SaveChangesAsync();
+                if(advertisement.Files != null)
+                {
+                    FormFilesToAdvertisementFilesForCreate(add.Id, advertisement.Files);
+                    await _context.SaveChangesAsync();
+                }
                 return RedirectToAction("MyAdds");
             }
             return View(advertisement);
