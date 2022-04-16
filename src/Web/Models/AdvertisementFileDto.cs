@@ -11,7 +11,7 @@ namespace Web.Models
         public string Type { get; set; } = string.Empty;
         [Required]
         public string Data { get; set; } = string.Empty;
-        [Required]
+        public string ImageUrl { get; set; } = string.Empty;
         public bool MarkForDelete { get; set; }
         public int AdvertismentId { get; set; }
     }

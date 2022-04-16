@@ -48,14 +48,10 @@
         </dd>
         <dd class = "col-sm-10"> 
             <label>Bilag</label>
-            <ul>
             @foreach(var file in Model.AdvertisementFileDtos)
             {
-                <li>
-                    <a asp-action="ShowFile" asp-controller="Advertisement" asp-route-id="@file.Id" target="_blank">@file.Name</a>
-                </li>
+                <img src="@file.ImageUrl" height="100" width="100" />
             }
-            </ul>
         </dd>
     </dl>
 </div>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using Web.Data;
 using Web.Extensions;
@@ -19,32 +20,32 @@ namespace Web.Controllers
 
         public IActionResult Index(AdvertisementSearchDto advertisementSearchDto = null)
         {
-            return View(new AdvertisementVm() { Advertisements = GetAdvertisements(advertisementSearchDto).ToAdvertisementDtoList() });
+            return View(new AdvertisementVm() { Advertisements = GetAdvertisements(advertisementSearchDto).ToAdvertisementDtoList(true) });
         }
         private List<Advertisement> GetAdvertisements(AdvertisementSearchDto advertisementSearchDto)
         {
-            var advertisements = _context.Advertisements.AsEnumerable();
-            if (advertisementSearchDto != null)
-            {
-                var tmpAdds = advertisementSearchDto.IsOffer ? _context.Advertisements.Where(x => x.IsOffer) : _context.Advertisements.AsEnumerable();
+            var advertisements = _context.Advertisements.Include(x=>x.AdvertisementFiles).AsEnumerable();
+            //if (advertisementSearchDto != null)
+            //{
+            //    var tmpAdds = advertisementSearchDto.IsOffer ? _context.Advertisements.Where(x => x.IsOffer) : _context.Advertisements.AsEnumerable();
 
-                if (!string.IsNullOrEmpty(advertisementSearchDto.ProductName))
-                    tmpAdds = tmpAdds.Where(x => x.ProductName.ToLower().Contains(advertisementSearchDto.ProductName.ToLower())).AsEnumerable();
+            //    if (!string.IsNullOrEmpty(advertisementSearchDto.ProductName))
+            //        tmpAdds = tmpAdds.Where(x => x.ProductName.ToLower().Contains(advertisementSearchDto.ProductName.ToLower())).AsEnumerable();
 
-                if (advertisementSearchDto.YearFrom != 0)
-                    tmpAdds = tmpAdds.Where(x => x.Year >= advertisementSearchDto.YearFrom).AsEnumerable();
+            //    if (advertisementSearchDto.YearFrom != 0)
+            //        tmpAdds = tmpAdds.Where(x => x.Year >= advertisementSearchDto.YearFrom).AsEnumerable();
 
-                if (advertisementSearchDto.YearTo != 0)
-                    tmpAdds = tmpAdds.Where(x => x.Year <= advertisementSearchDto.YearTo).AsEnumerable();
+            //    if (advertisementSearchDto.YearTo != 0)
+            //        tmpAdds = tmpAdds.Where(x => x.Year <= advertisementSearchDto.YearTo).AsEnumerable();
 
-                if (advertisementSearchDto.PriceFrom != null && advertisementSearchDto.PriceFrom != 0)
-                    tmpAdds = tmpAdds.Where(x => x.Price >= advertisementSearchDto.PriceFrom).AsEnumerable();
+            //    if (advertisementSearchDto.PriceFrom != null && advertisementSearchDto.PriceFrom != 0)
+            //        tmpAdds = tmpAdds.Where(x => x.Price >= advertisementSearchDto.PriceFrom).AsEnumerable();
 
-                if (advertisementSearchDto.PriceTo != null && advertisementSearchDto.PriceTo != 0)
-                    tmpAdds = tmpAdds.Where(x => x.Price <= advertisementSearchDto.PriceTo).AsEnumerable();
+            //    if (advertisementSearchDto.PriceTo != null && advertisementSearchDto.PriceTo != 0)
+            //        tmpAdds = tmpAdds.Where(x => x.Price <= advertisementSearchDto.PriceTo).AsEnumerable();
 
-                advertisements = tmpAdds;
-            }
+            //    advertisements = tmpAdds;
+            //}
             return advertisements.ToList();
         }
 

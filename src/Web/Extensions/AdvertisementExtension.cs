@@ -6,23 +6,23 @@ namespace Web.Extensions
 {
     public static class AdvertisementExtension
     {
-        public static List<AdvertisementDto> ToAdvertisementDtoList(this List<Advertisement> advertisements)
+        public static List<AdvertisementDto> ToAdvertisementDtoList(this List<Advertisement> advertisements, bool generateImages = false)
         {
-            return advertisements.Select(adv => adv.ToAdvertisementDto()).ToList();
+            return advertisements.Select(adv => adv.ToAdvertisementDto(generateImages)).ToList();
         }
-        public static AdvertisementDto ToAdvertisementDto(this Advertisement advertisement)
+        public static AdvertisementDto ToAdvertisementDto(this Advertisement advertisement, bool generateImages = false)
         {
-            return new AdvertisementDto 
-            { 
+            return new AdvertisementDto
+            {
                 ApplicationUserId = advertisement.ApplicationUserId,
                 Description = advertisement.Description,
                 Id = advertisement.Id,
-               IsOffer = advertisement.IsOffer,
-               Model = advertisement.Model,
-               Price = advertisement.Price,
-               ProductName = advertisement.ProductName,
-               Year = advertisement.Year,
-               AdvertisementFileDtos = advertisement.AdvertisementFiles.ToAdvertisementFileDtoList(),
+                IsOffer = advertisement.IsOffer,
+                Model = advertisement.Model,
+                Price = advertisement.Price,
+                ProductName = advertisement.ProductName,
+                Year = advertisement.Year,
+                AdvertisementFileDtos = advertisement.AdvertisementFiles.ToAdvertisementFileDtoList(generateImages),
             };
         }
 
@@ -45,12 +45,12 @@ namespace Web.Extensions
             };
         }
 
-        public static List<AdvertisementFileDto> ToAdvertisementFileDtoList(this ICollection<AdvertisementFile> advertisementFiles)
+        public static List<AdvertisementFileDto> ToAdvertisementFileDtoList(this ICollection<AdvertisementFile> advertisementFiles, bool generateImages = false)
         {
-            return advertisementFiles.Select(advFil => advFil.ToAdvertisementFileDto()).ToList();
+            return advertisementFiles.Select(advFil => advFil.ToAdvertisementFileDto(generateImages)).ToList();
         }
 
-        public static AdvertisementFileDto ToAdvertisementFileDto(this AdvertisementFile advertisementFile)
+        public static AdvertisementFileDto ToAdvertisementFileDto(this AdvertisementFile advertisementFile, bool generateImages = false)
         {
             return new AdvertisementFileDto
             {
@@ -59,6 +59,7 @@ namespace Web.Extensions
                 Id = advertisementFile.Id,
                 Name = advertisementFile.Name,
                 Type = advertisementFile.Type,
+                ImageUrl = generateImages ? $"data:{advertisementFile.Type};base64,{advertisementFile.Data}" : string.Empty,
             };
         }
 

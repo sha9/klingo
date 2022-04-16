@@ -13,6 +13,7 @@ namespace Web.Controllers
     {
         private ApplicationDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private List<string> AllowedFileTypes { get; set; } = new List<string>() {"png", "jpg", "jpeg" };
         public AdvertisementController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
@@ -67,6 +68,14 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                foreach(var file in advertisement.Files)
+                {
+                    if (!AllowedFileTypes.Contains(file.ContentType))
+                    {
+                        ModelState.AddModelError("Files", "Only png, jpg and jpeg are allowed");
+                        return View(advertisement);
+                    }
+                }
                 var add = advertisement.ToAdvertisement();
                 add.ApplicationUserId = GetCurrentUserId();
                 _context.Advertisements.Add(add);
@@ -132,7 +141,7 @@ namespace Web.Controllers
                 return NotFound();
             }
 
-            return View(advertisement.ToAdvertisementDto());
+            return View(advertisement.ToAdvertisementDto(true));
         }
 
         public async Task<IActionResult> ShowFile(int? id)
