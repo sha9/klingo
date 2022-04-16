@@ -43,18 +43,24 @@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.IsOffer)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.IsOffer)
         </dd>
-        <dd class = "col-sm-10"> 
-            <label>Bilag</label>
+        @if (Model.AdvertisementFileDtos.Any())
+        {
+            <dt class="col-sm-2">
+                Bilag
+            </dt>
+            <dd class="col-sm-10">
             @foreach(var file in Model.AdvertisementFileDtos)
             {
                 <img src="@file.ImageUrl" height="100" width="100" />
             }
         </dd>
+        }
     </dl>
 </div>
 <div>
-    <a asp-action="Index">Tilbage</a>
+    <a asp-action="Index" class="btn btn-danger">Tilbage</a>
+    <a class="btn btn-primary">Kontakt/Køb</a>
 </div>
