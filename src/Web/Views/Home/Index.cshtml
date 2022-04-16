@@ -20,12 +20,15 @@
     <div class="container">
         <div class="text-center">
             <div class="row g-2 mb-3">
-                <div class="col-md">
+                <form asp-action="SearchRedirect" asp-controller="Advertisement">
+                    <div class="col-md">
                     <div class="form-floating">
-                        <input class="form-control" id="searchShort" />
-                        <label for="searchShort">Søg</label>
+                        <input class="form-control" name="searchValue" />
+                        <label for="searchShort">Søg <small>- tryk enter for at søge</small></label>
                     </div>
                 </div>
+                </form>
+                
             </div>
         </div>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="advList">
@@ -104,17 +107,3 @@
     </div>
   </div>
 </div>
-
-@section Scripts{
-    <script>
-        $(document).ready(function(){
-            var input = document.getElementById("searchShort");
-            input.addEventListener("keyup", function(event) {
-              if (event.keyCode === 13) {
-                event.preventDefault();
-                window.location.href = '@Url.Action("Index","Advertisement")';
-              }
-            }); 
-        });
-    </script>
-}   

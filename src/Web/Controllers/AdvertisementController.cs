@@ -22,7 +22,10 @@ namespace Web.Controllers
         [AllowAnonymous]
         public IActionResult Index(AdvertisementSearchDto advertisementSearchDto = null)
         {
-            return View(new AdvertisementVm() { Advertisements = GetAdvertisements(advertisementSearchDto).ToAdvertisementDtoList() });
+            var model = new AdvertisementVm() { Advertisements = GetAdvertisements(advertisementSearchDto).ToAdvertisementDtoList() };
+            if(advertisementSearchDto != null)
+                model.AdvertisementSearchDto = advertisementSearchDto;
+            return View(model);
         }
         private List<Advertisement> GetAdvertisements(AdvertisementSearchDto advertisementSearchDto)
         {
@@ -236,6 +239,11 @@ namespace Web.Controllers
             _context.Advertisements.Remove(advertisement);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+        [AllowAnonymous]
+        public IActionResult SearchRedirect(string searchValue)
+        {
+            return RedirectToAction("Index", "Advertisement", new AdvertisementSearchDto() { ProductName = searchValue });
         }
 
         private bool AdvertisementExists(int id)
