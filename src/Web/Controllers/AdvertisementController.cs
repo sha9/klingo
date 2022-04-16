@@ -70,7 +70,7 @@ namespace Web.Controllers
             {
                 foreach(var file in advertisement.Files)
                 {
-                    if (!AllowedFileTypes.Contains(file.ContentType))
+                    if (!AllowedFileTypes.Contains(file.FileName.Split(".")[1].ToLower()))
                     {
                         ModelState.AddModelError("Files", "Only png, jpg and jpeg are allowed");
                         return View(advertisement);
