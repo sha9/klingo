@@ -191,7 +191,7 @@ namespace Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProductName,Description,Model,Category,Year,Price,IsOffer,Files,AdvertisementFileDtos,ApplicationUserId")] AdvertisementDto advertisement)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ProductName,Description,Model,Category,Year,Price,IsOffer,Files,AdvertisementFileDtos,Category,SelectedCategories,ApplicationUserId")] AdvertisementDto advertisement)
         {
             if (id != advertisement.Id)
             {
@@ -202,7 +202,8 @@ namespace Web.Controllers
             {
                 try
                 {
-                    _context.Update(advertisement.ToAdvertisement());
+                    var adv = advertisement.ToAdvertisement();
+                    _context.Update(adv);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
