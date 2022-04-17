@@ -64,7 +64,6 @@ namespace Web.Extensions
                 "1" => "Tandlæge",
                 "2" => "Læge",
                 "3" => "Fysioterapi",
-                "4" => "Tandpleje",
                 _ => "Intet",
             };
         }
