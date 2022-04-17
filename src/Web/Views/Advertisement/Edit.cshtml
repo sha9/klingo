@@ -52,6 +52,13 @@
             <div class="form-group">
                 <label asp-for="Files" class="control-label"></label>
                 <input asp-for="Files" class="form-control" type="file" multiple />
+                @if(Model.AdvertisementFileDtos != null)
+                {
+                    @foreach(var file in Model.AdvertisementFileDtos)
+                    {
+                        <img src="@file.ImageUrl" height="100" width="100" />
+                    }
+                }
                 <span asp-validation-for="Files" class="text-danger"></span>
             </div>
             <div class="form-group form-check">

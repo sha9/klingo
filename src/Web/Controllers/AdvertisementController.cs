@@ -178,12 +178,12 @@ namespace Web.Controllers
                 return NotFound();
             }
 
-            var advertisement = await _context.Advertisements.FindAsync(id);
+            var advertisement = await _context.Advertisements.Include(x=>x.AdvertisementFiles).FirstOrDefaultAsync(m => m.Id == id);
             if (advertisement == null)
             {
                 return NotFound();
             }
-            return View(advertisement.ToAdvertisementDto());
+            return View(advertisement.ToAdvertisementDto(true));
         }
 
         // POST: Advertisements/Edit/5
