@@ -19,17 +19,33 @@
 <div class="album py-5 bg-light">
     <div class="container">
         <div class="text-center">
-            <div class="row g-2 mb-3">
-                <form asp-action="SearchRedirect" asp-controller="Advertisement">
+            <form asp-action="SearchRedirect" asp-controller="Advertisement">
+                <div class="row g-2 mb-3">
                     <div class="col-md">
-                    <div class="form-floating">
-                        <input class="form-control" name="searchValue" />
-                        <label for="searchShort">Søg <small>- tryk enter for at søge</small></label>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" asp-for="AdvertisementSearchDto.ProductName" />
+                            <label for="searchShort">Produkt navn</label>
+                        </div>
                     </div>
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <select class="form-select" asp-for="AdvertisementSearchDto.Category" id="category">
+                            <option value="0" selected>Alt</option>
+                            <option value="1">Tandlæge</option>
+                                <option value="2">Læge</option>
+                                <option value="3">Fysioterapi</option>
+                                <option value="4">Tandpleje</option>
+                            </select>
+                            <label for="category">Kategori</label>
+                        </div>
+                    </div>
+                    <br />
+                    <button type="submit" class="btn btn-primary btn-lg">Søg</button>
                 </div>
-                </form>
-                
-            </div>
+                <div class="row mb-3">
+                    
+                </div>
+            </form>
         </div>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="advList">
           @foreach(var adv in Model.Advertisements)

@@ -24,7 +24,7 @@ namespace Web.Controllers
         }
         private List<Advertisement> GetAdvertisements(AdvertisementSearchDto advertisementSearchDto)
         {
-            var advertisements = _context.Advertisements.Include(x=>x.AdvertisementFiles).AsEnumerable();
+            var advertisements = _context.Advertisements.Include(x=>x.AdvertisementFiles).Take(10).AsEnumerable();
             //if (advertisementSearchDto != null)
             //{
             //    var tmpAdds = advertisementSearchDto.IsOffer ? _context.Advertisements.Where(x => x.IsOffer) : _context.Advertisements.AsEnumerable();

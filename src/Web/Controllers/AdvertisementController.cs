@@ -254,9 +254,9 @@ namespace Web.Controllers
             return RedirectToAction(nameof(Index));
         }
         [AllowAnonymous]
-        public IActionResult SearchRedirect(string searchValue)
+        public IActionResult SearchRedirect(AdvertisementSearchDto advertisementSearchDto)
         {
-            return RedirectToAction("Index", "Advertisement", new AdvertisementSearchDto() { ProductName = searchValue });
+            return RedirectToAction("Index", "Advertisement", new AdvertisementSearchDto() { ProductName = advertisementSearchDto.ProductName, Category = advertisementSearchDto.Category });
         }
 
         private bool AdvertisementExists(int id)
