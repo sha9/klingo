@@ -50,7 +50,7 @@ namespace Web.Controllers
         }
         public IActionResult NavRedirectByCategory(string categoryId)
         {
-            return RedirectToAction("Index", "Advertisement", new AdvertisementSearchDto() { Category = cate });
+            return RedirectToAction("Index", "Advertisement", new AdvertisementSearchDto() { Category = categoryId });
         }
 
         public IActionResult About()
