@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Web.Data;
 using Web.Extensions;
@@ -22,17 +22,17 @@ namespace Web.Controllers
         [AllowAnonymous]
         public IActionResult Index(AdvertisementSearchDto advertisementSearchDto = null)
         {
-            var model = new AdvertisementVm() { Advertisements = GetAdvertisements(advertisementSearchDto).ToAdvertisementDtoList() };
+            var model = new AdvertisementVm() { Advertisements = GetAdvertisements(advertisementSearchDto).ToAdvertisementDtoList(true) };
             if(advertisementSearchDto != null)
                 model.AdvertisementSearchDto = advertisementSearchDto;
             return View(model);
         }
         private List<Advertisement> GetAdvertisements(AdvertisementSearchDto advertisementSearchDto)
         {
-            var advertisements = _context.Advertisements.AsEnumerable();
+            var advertisements = _context.Advertisements.Include(x=>x.AdvertisementFiles).AsEnumerable();
             if (advertisementSearchDto != null)
             {
-                var tmpAdds = advertisementSearchDto.IsOffer ? _context.Advertisements.Where(x=>x.IsOffer) : _context.Advertisements.AsEnumerable();
+                var tmpAdds = advertisementSearchDto.IsOffer ? _context.Advertisements.Where(x=>x.IsOffer).Include(x=>x.AdvertisementFiles).AsEnumerable() : advertisements;
 
                 if (!string.IsNullOrEmpty(advertisementSearchDto.ProductName))
                     tmpAdds = tmpAdds.Where(x => x.ProductName.ToLower().Contains(advertisementSearchDto.ProductName.ToLower())).AsEnumerable();
