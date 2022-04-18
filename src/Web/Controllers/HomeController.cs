@@ -48,6 +48,10 @@ namespace Web.Controllers
             //}
             return advertisements.ToList();
         }
+        public IActionResult NavRedirectByCategory(string categoryId)
+        {
+            return RedirectToAction("Index", "Advertisement", new AdvertisementSearchDto() { Category = cate });
+        }
 
         public IActionResult About()
         {
